@@ -9,15 +9,18 @@ $(document).ready(function(){
      * @param {object} position 
      */
     function success(position) {
-        //   var latitude  = position.coords.latitude;
-        //   var longitude = position.coords.longitude;
+        var latitude  = position.coords.latitude;
+        var longitude = position.coords.longitude;
 
-        const latitude = '45.53591845';
-        const longitude = '-73.61507102638478';
-        
-        const ZOOM_LEVELS = {min:10,max:20,initial:13};
+        if(!(latitude && longitude)) {
+            latitude = '45.53591845';
+            longitude = '-73.61507102638478';
+        }
+ 
+        const ZOOM_LEVELS = {min:8,max:20,initial:13};
+        /* Initialize the map */
         var mymap = L.map('right').setView([latitude,longitude],ZOOM_LEVELS.initial);
-        
+        /* Use tiles from Mapbox */
         var mapboxToken = 'pk.eyJ1IjoieWFuajIwMDQiLCJhIjoiY2tuZmZ5ZGxtMWs5YjJwbGx6MHR3MmF4bCJ9._q3LM-UuY99qLh64jycVXQ';
         var mapboxUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}';
         
@@ -28,8 +31,7 @@ $(document).ready(function(){
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1,
-            accessToken: 'pk.eyJ1IjoieWFuajIwMDQiLCJhIjoiY2tuZmZ5ZGxtMWs5YjJwbGx6MHR3MmF4bCJ9._q3LM-UuY99qLh64jycVXQ'
-
+            accessToken: mapboxToken
         }).addTo(mymap);
 
         L.marker([latitude,longitude]).addTo(mymap)
