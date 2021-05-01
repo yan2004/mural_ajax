@@ -34,13 +34,11 @@ $(document).ready(function(){
             accessToken: mapboxToken
         }).addTo(mymap);
 
+        /* Add a marker with popups */
         L.marker([latitude,longitude]).addTo(mymap)
-            .bindPopup("Your're here")
+            .bindPopup("Your Location")
             .openPopup();
 
-        /**
-         * Ajax get info from open source
-         */
         
         $.ajax({
             url: './data/dataGeo.php',
@@ -50,16 +48,10 @@ $(document).ready(function(){
             success (res) {
                 var listMap = res;
                
-                //pointToLayer
-                var geojsonMarkerOptions = {
-                    radius: 8,
-                    fillColor: "#ff7800",
-                    color: "#000",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                };
-
+                /**
+                 * https://leafletjs.com/examples/geojson/
+                 * We can also use geoJSON Feature to creat CircleMarker .
+                 */
                 /**
                  * 
                  * @param {sting} latLng :[latitude,longitude]

@@ -81,7 +81,7 @@ main .row:first-child #left .gallery-map img {
 main .row:first-child #right {
   flex: 1;
   height: 70vh;
-  z-index: -1;
+  z-index: 0;
   /*Leaflet circle style*/
 }
 
@@ -96,7 +96,7 @@ main .row:first-child #right .circle {
 }
 
 main .row:first-child #right .circle.circle1 {
-  background: rgba(0, 57, 128, 0.3);
+  background: rgba(255, 99, 71, 0.7);
   border-color: #39603D;
   color: white;
 }
