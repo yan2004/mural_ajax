@@ -11,12 +11,22 @@ $(document).ready(function(){
     function success(position) {
         var latitude  = position.coords.latitude;
         var longitude = position.coords.longitude;
+        mymap(latitude, longitude); 
+      }
+    
+    function error() {
+        alert('Unable to retrieve your location');
+        const latitude = '45.5168';
+        const longitude = '-73.6492';
+        mymap(latitude,longitude);
+    }
 
-        if(!(latitude && longitude)) {
-            latitude = '45.53591845';
-            longitude = '-73.61507102638478';
-        }
- 
+    /**
+     * Generate Mapbox Leaflet mpa
+     * @param latitude
+     * @param longitude
+     */
+    function mymap(latitude,longitude){
         const ZOOM_LEVELS = {min:8,max:20,initial:13};
         /* Initialize the map */
         var mymap = L.map('right').setView([latitude,longitude],ZOOM_LEVELS.initial);
@@ -36,7 +46,7 @@ $(document).ready(function(){
 
         /* Add a marker with popups */
         L.marker([latitude,longitude]).addTo(mymap)
-            .bindPopup("Your Location")
+            .bindPopup('Your location')
             .openPopup();
 
         
@@ -51,8 +61,6 @@ $(document).ready(function(){
                 /**
                  * https://leafletjs.com/examples/geojson/
                  * We can also use geoJSON Feature to creat CircleMarker .
-                 */
-                /**
                  * 
                  * @param {sting} latLng :[latitude,longitude]
                  * @param {sting} txt : content inside the circle
@@ -77,7 +85,7 @@ $(document).ready(function(){
                 
                  listMap.forEach(element => {
                     var popup = '<div class="card gallery-map"><img class="card-img-top flex-gallery" src="' + element['image_url'] + 
-                    '" alt=" "><div class="card-body"><p class="card-text">' + element['artiste'] + '</p><p class="card-text">'+ element['adresse']+'</p></div></div>';
+                    '" alt=" "><div class="card-body"><p class="card-text">Artist: ' + element['artiste'] + '</p><p class="card-text">Address: '+ element['adresse']+'</p><p class="card-text">Organization: '+element['organisme'] + '</p></div></div>';
                     arrayImg.push(element);
                     circleWithText([element['latitude'],element['longitude']], element['idGeo'], 10, 1.5, 'circle1')
                     .addTo(mymap)
@@ -86,12 +94,12 @@ $(document).ready(function(){
                  });
 
                 /**
-                 * Call back every 1minute, refresh left gallery
+                 * Call back every 2minute, refresh left gallery
                  */
                 getRandomEles();
-                setInterval(getRandomEles, 60000);
+                setInterval(getRandomEles, 120000);
 
-                function getRandomEles(){
+                 function getRandomEles(){
                     
                     if($('#left').children().length > 0){
                        
@@ -110,32 +118,29 @@ $(document).ready(function(){
                     var leftHtml = '';
                     for(var i = 0; i<4; i++) {
                         leftHtml += '<div class="card gallery-map"><img class="card-img-top flex-gallery" src="' + randomArrayImg[i]['image_url'] + 
-                                '" alt=" "><div class="card-body"><p class="card-text">' + randomArrayImg[i]['artiste'] + '</p></div></div>';
+                                '" alt=" "><div class="card-body"><p class="card-text">' + randomArrayImg[i]['artiste'] + ' | ' + randomArrayImg[i]['idGeo'] +'</p></div></div>';
                     }
                     
-                    var leftDom = $('#left').append(leftHtml);
+                    $('#left').append(leftHtml);
                 
-                }
+                 }
                 
             },
-            error (xhr, info, err) {
+            error (xhr, err) {
                 console.log('Error')
                 console.log(xhr)
                 console.log(err)
             },
             timeout: 1000 * 10
         });
-
-        
-      }
-    
-    function error() {
-        alert('Unable to retrieve your location');
     }
     
 
     if(!navigator.geolocation) {
         alert('Geolocation is not supported by your browser');
+        const latitude = '45.5168';
+        const longitude = '-73.6492';
+        mymap(latitude,longitude);
     } else {
         navigator.geolocation.getCurrentPosition(success, error)
     }
@@ -186,8 +191,6 @@ $(document).ready(function(){
 
        
     });
-
-    
 
     function extract(text) {
         return /^(?:[^|]*\|){2}\s*([^|]*?)\s*$/[Symbol.match](text)?.[1];
