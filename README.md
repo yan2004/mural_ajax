@@ -1,3 +1,8 @@
+###Hi ther, I'm Yan - aka [yanmtl.website]
+
+##Once a senior business development, now a young developer!
+- Everyday is a huge learning experience
+- Fun fact: I love cooking, photography and traveling
 # mural_ajax
 This project uses open-source data https://donnees.montreal.ca/ville-de-montreal/murales to download GeoJSON data, produce a local database and display the data in Leaflet map.
 Due to Chrome's limitations on geolocation, it is recommended to use Firefox to follow the project.
